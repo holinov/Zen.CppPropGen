@@ -92,7 +92,7 @@ void generator::parseFields(string &where, membersMap &mmap)
            pfEnd = where.rfind(cPFBounds);
 
     // если не нашли начало или конец - не производим парсинг
-    if (pfBegin == std::string::npos || pfEnd == std::string::npos) return;
+    if (pfBegin == std::string::npos || pfEnd == std::string::npos || pfBegin == pfEnd) return;
 
     size_t replaceStart = pfBegin + cPFBounds.size();
     size_t len = pfEnd - replaceStart;
@@ -130,7 +130,7 @@ void generator::replaceBetween(const string &bound, const string &newContent, st
            pfEnd = where.rfind(bound);
 
     // если не нашли начало или конец - не производим замену
-    if (pfBegin == std::string::npos || pfEnd == std::string::npos) return;
+    if (pfBegin == std::string::npos || pfEnd == std::string::npos || pfBegin == pfEnd) return;
     size_t replaceStart = pfBegin + bound.size();
     size_t countToReplace = pfEnd - replaceStart;
     where.replace(replaceStart, countToReplace, newContent);

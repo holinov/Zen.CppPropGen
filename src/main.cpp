@@ -184,5 +184,5 @@ int main(int argc, char const *argv[])
         membersVector mems;
         g.generate(i.classname, mems);
     }
-    return 1;
+    return 0;
 }
