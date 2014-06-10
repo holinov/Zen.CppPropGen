@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include <iostream>
 #include <utility>
 
@@ -110,7 +112,7 @@ int main(int argc, char const *argv[])
     for (auto i : p.classes)
     {
         string classname = i;
-        cout << "Generationg class " << classname << endl;
+        cout << "Generating class " << classname << endl;
 
         string outName = classname + ".h";
         string templatePath = p.templateSet ? p.templatePath : outName;
