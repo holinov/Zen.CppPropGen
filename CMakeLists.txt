@@ -10,6 +10,10 @@ SET( CPP_CHECK_REPORT "code_report" CACHE STRING "CppCheck report dir")
 SET(TARGETS_TO_CHECK "")
 INCLUDE(cmake/Modules/RunCppCheck.cmake)
 
+
+#разрешить использование стандарта C++11
+ADD_DEFINITIONS(-Wno-c++11-extensions)
+
 ADD_SUBDIRECTORY(src)
 
 
