@@ -14,6 +14,10 @@ INCLUDE(cmake/Modules/RunCppCheck.cmake)
 #разрешить использование стандарта C++11
 ADD_DEFINITIONS(-Wno-c++11-extensions)
 
+IF(WIN32)
+	ADD_DEFINITIONS(-DWIN_PATH)
+ENDIF()
+
 ADD_SUBDIRECTORY(src)
 
 

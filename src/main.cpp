@@ -14,11 +14,20 @@ void printBanner()
     cout << endl << "CppProperty generator launched." << endl;
 }
 
+typedef struct cinfo_s
+{
+    string classname;
+    string templatename;
+    string outname;
+} classinfo;
+
 struct
 {
     string templatePath;
     vector<string> classes;
     bool templateSet;
+
+    vector<classinfo> classinfos;
     bool needsExit;
 } p;
 
@@ -65,20 +74,38 @@ void configureOptions(int argc, char const *argv[])
         "--template"
     );
 
+    opt.add(
+        "",
+        0,
+        -1,
+        ',',
+        "Set files to process",
+        "-f",
+        "--files"
+    );
+
     bool configured = false;
 
     opt.parse(argc, argv);
 
-    if (opt.isSet("-c"))
+    if (opt.isSet("-f"))
     {
-        vector< vector<string> > classes;
-        opt.get("-c")->getMultiStrings(classes);
-        for (int j = 0; j < classes.size(); ++j)
+        vector< vector<string> > files;
+        opt.get("-f")->getMultiStrings(files);
+        for (int j = 0; j < files.size(); ++j)
         {
-            vector<string> cv = classes[j];
+            vector<string> cv = files[j];
             for (int i = 0; i < cv.size(); ++i)
             {
-                p.classes.push_back(cv[i]);
+                std::string fileName = cv[i];
+                size_t  from = fileName.rfind(cPathSeparator) + 1,
+                        to = fileName.rfind('.');
+                size_t len = to - from;
+                string classname = fileName.substr(from, len);
+
+                //когда указан файл вход и выход совпадают
+                classinfo ci  = {classname, fileName, fileName};
+                p.classinfos.push_back(ci);
             }
         }
         configured = true;
@@ -91,6 +118,28 @@ void configureOptions(int argc, char const *argv[])
         p.templatePath = tmpl;
         p.templateSet = true;
     }
+
+    if (opt.isSet("-c"))
+    {
+        vector< vector<string> > classes;
+        opt.get("-c")->getMultiStrings(classes);
+        for (int j = 0; j < classes.size(); ++j)
+        {
+            vector<string> cv = classes[j];
+            for (int i = 0; i < cv.size(); ++i)
+            {
+                //p.classes.push_back(cv[i]);
+                string classname = cv[i];
+                string fileName = classname + ".h";
+                string templatename = p.templateSet ? p.templatePath : fileName;
+                classinfo ci = {classname, fileName, templatename};
+                p.classinfos.push_back(ci);
+            }
+        }
+        configured = true;
+    }
+
+
 
     if (opt.isSet("-h")  || !configured)
     {
@@ -109,17 +158,17 @@ int main(int argc, char const *argv[])
     configureOptions(argc, argv);
     if (p.needsExit) return 0;
 
-    for (auto i : p.classes)
+    for (classinfo i : p.classinfos)
     {
-        string classname = i;
-        cout << "Generating class " << classname << endl;
+        //string classname = i;
+        cout << "Generating class " << i.classname << " to file: " << i.outname << " template path: " << i.templatename << endl;
 
-        string outName = classname + ".h";
-        string templatePath = p.templateSet ? p.templatePath : outName;
+        //string outName = classname + ".h";
+        //string templatePath = p.templateSet ? p.templatePath : outName;
 
-        generator g(templatePath, outName);
+        generator g(i.templatename, i.outname);
         membersVector mems;
-        g.generate(classname, mems);
+        g.generate(i.classname, mems);
     }
     return 1;
 }
