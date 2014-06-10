@@ -1,17 +1,13 @@
 class $className$
 {
 public:
-	$className$();
-	~$className$();
+	$className$(){};
+	~$className$(){};
 
 	/*--prop methods--*/
 	/*--prop methods--*/
 
 private:
 	/*--prop fields--*/
-	string m_templatePath;
-	string m_resultPath;
 	/*--prop fields--*/
-	//string m_templatePath;
-	//string m_resultPath;
 };
