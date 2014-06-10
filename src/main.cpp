@@ -28,7 +28,7 @@ void configureOptions(int argc, char const *argv[])
     p.templateSet = false;
     opt.overview = "Property getter\\setter generator for C++";
     opt.syntax = "cpppropgen [OPTIONS]";
-    opt.example = "cpppropgen -h\n\ncpppropgen -c class1";
+    opt.example = "cpppropgen -h\r\ncpppropgen -c class1,class2 -c class3\r\n\r\n";
     opt.footer = "cpppropgen v1.0.0 Copyright (C) 2014 Kholinow Ilya\nThis program is free and without warranty.\n";
 
     opt.add(
