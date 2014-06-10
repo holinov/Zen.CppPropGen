@@ -104,7 +104,6 @@ void configureOptions(int argc, char const *argv[])
 
 int main(int argc, char const *argv[])
 {
-    //printBanner();
     configureOptions(argc, argv);
     if (p.needsExit) return 0;
 
@@ -120,41 +119,5 @@ int main(int argc, char const *argv[])
         membersVector mems;
         g.generate(classname, mems);
     }
-
-    /*string templatePath;
-    string classname;
-    string outName;
-    if (argc > 3 || argc == 1)
-    {
-        cout    << "Ussage: " << endl
-                << "[to generate from template] generator <class name> <template path>" << endl
-                << "\t <class name>    - name of class" << endl
-                << "\t <template path> - path to template" << endl
-                << "[to update file] generator <class name>" << endl
-                << "\t <class name>    - name of class" << endl;
-
-        return 0;
-    }
-    else if (argc == 2)
-    {
-        //Указано только имя класса
-        classname = string(argv[1]);
-        outName = classname + ".h";
-        templatePath = outName;
-    }
-    else
-    {
-        //Указаны имя класса и имя шаблона
-        templatePath = string(argv[2]);
-        classname = string(argv[1]);
-        outName = classname + ".h";
-    }
-
-    generator g(templatePath, outName);
-    membersVector mems;
-    //mems.push_back(make_pair("index", "int"));
-    //mems.push_back(make_pair("vec", "std::vector<int>"));
-
-    g.generate("test_class", mems);*/
     return 1;
 }
