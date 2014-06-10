@@ -74,12 +74,15 @@ void generator::generate(string classname, membersVector mv)
     replaceBetween(cPMBounds, accString.str(), result);
     //cout << "Result: " << endl << result << endl;
 
-    ofstream ofile (m_resultPath);
-    cout << "Writing to file " << m_resultPath << endl;
-    if (ofile.is_open())
+    if (!m_dryRun)
     {
-        ofile << result;
-        ofile.close();
+        ofstream ofile (m_resultPath);
+        cout << "Writing to file " << m_resultPath << endl;
+        if (ofile.is_open())
+        {
+            ofile << result;
+            ofile.close();
+        }
     }
 }
 

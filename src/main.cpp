@@ -23,12 +23,11 @@ typedef struct cinfo_s
 
 struct
 {
-    string templatePath;
-    vector<string> classes;
-    bool templateSet;
-
     vector<classinfo> classinfos;
+    string templatePath;
     bool needsExit;
+    bool dryRun;
+    bool templateSet;
 } p;
 
 void configureOptions(int argc, char const *argv[])
@@ -47,7 +46,7 @@ void configureOptions(int argc, char const *argv[])
         0, // Required?
         0, // Number of args expected.
         0, // Delimiter if expecting multiple args.
-        "Print this usage message in one of three different layouts.", // Help description.
+        "Print this usage message.", // Help description.
         "-h",     // Flag token.
         "-help", // Flag token.
         "--help", // Flag token.
@@ -75,6 +74,16 @@ void configureOptions(int argc, char const *argv[])
     );
 
     opt.add(
+        "", // Default.
+        0, // Required?
+        0, // Number of args expected.
+        0, // Delimiter if expecting multiple args.
+        "Dont save out files.", // Help description.
+        "-dr",
+        "--dryRun"
+    );
+
+    opt.add(
         "",
         0,
         -1,
@@ -87,6 +96,11 @@ void configureOptions(int argc, char const *argv[])
     bool configured = false;
 
     opt.parse(argc, argv);
+
+    if (opt.isSet("-dr"))
+    {
+        p.dryRun = true;
+    }
 
     if (opt.isSet("-f"))
     {
@@ -166,7 +180,7 @@ int main(int argc, char const *argv[])
         //string outName = classname + ".h";
         //string templatePath = p.templateSet ? p.templatePath : outName;
 
-        generator g(i.templatename, i.outname);
+        generator g(i.templatename, i.outname, p.dryRun);
         membersVector mems;
         g.generate(i.classname, mems);
     }

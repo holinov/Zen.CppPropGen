@@ -46,9 +46,10 @@ typedef std::vector<memberPair> membersVector;
 class generator
 {
 public:
-    generator(string templatePath, string resultPath)
+    generator(string templatePath, string resultPath,bool dryRun)
         : m_templatePath(templatePath)
         , m_resultPath(resultPath)
+        , m_dryRun(dryRun)
     { };
 
     ~generator() {};
@@ -65,4 +66,5 @@ private:
     membersMap m_members;
     string m_templatePath;
     string m_resultPath;
+    bool m_dryRun;
 };
