@@ -107,9 +107,8 @@ int main(int argc, char const *argv[])
     configureOptions(argc, argv);
     if (p.needsExit) return 0;
 
-    //for (auto i = p.classes.begin(); i != p.classes.end(); ++i){
-    //string classname = *i;
-    for(auto i : p.classes) {
+    for (auto i : p.classes)
+    {
         string classname = i;
         cout << "Generationg class " << classname << endl;
 
